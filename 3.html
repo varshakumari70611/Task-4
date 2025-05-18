@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Product Listing Page</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f9;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 25px;
+    }
+
+    select, input[type="range"], input[type="text"] {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 180px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .card h3 {
+      margin: 10px 0 5px;
+      font-size: 1.1rem;
+    }
+
+    .price, .rating, .category {
+      font-size: 0.9rem;
+      color: #555;
+    }
+
+    .no-results {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #999;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .controls {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🛍️ Product Listing Page</h1>
+
+  <div class="controls">
+    <input type="text" id="searchInput" placeholder="Search products...">
+    <select id="categoryFilter">
+      <option value="all">All Categories</option>
+      <option value="electronics">Electronics</option>
+      <option value="fashion">Fashion</option>
+      <option value="books">Books</option>
+    </select>
+    <select id="sortOption">
+      <option value="default">Sort by</option>
+      <option value="priceLow">Price: Low to High</option>
+      <option value="priceHigh">Price: High to Low</option>
+      <option value="ratingHigh">Rating: High to Low</option>
+    </select>
+    <label>
+      Max Price:
+      <input type="range" id="priceRange" min="0" max="1000" value="1000" />
+      <span id="priceValue">1000</span>
+    </label>
+  </div>
+
+  <div id="productContainer" class="products"></div>
+  <p class="no-results" id="noResults" style="display: none;">No matching products found.</p>
+
+  <script>
+    const products = [
+      { name: "Smartphone X", category: "electronics", price: 699, rating: 4.5, image: "https://via.placeholder.com/240x160?text=Phone" },
+      { name: "Headphones", category: "electronics", price: 199, rating: 4.2, image: "https://via.placeholder.com/240x160?text=Headphones" },
+      { name: "Leather Jacket", category: "fashion", price: 120, rating: 4.8, image: "https://via.placeholder.com/240x160?text=Jacket" },
+      { name: "T-Shirt", category: "fashion", price: 25, rating: 4.0, image: "https://via.placeholder.com/240x160?text=T-Shirt" },
+      { name: "Novel Book", category: "books", price: 15, rating: 3.9, image: "https://via.placeholder.com/240x160?text=Book" },
+      { name: "Laptop", category: "electronics", price: 999, rating: 4.7, image: "https://via.placeholder.com/240x160?text=Laptop" },
+      { name: "Sneakers", category: "fashion", price: 85, rating: 4.3, image: "https://via.placeholder.com/240x160?text=Shoes" },
+      { name: "Self Help Book", category: "books", price: 20, rating: 4.1, image: "https://via.placeholder.com/240x160?text=Book" }
+    ];
+
+    const productContainer = document.getElementById("productContainer");
+    const categoryFilter = document.getElementById("categoryFilter");
+    const sortOption = document.getElementById("sortOption");
+    const priceRange = document.getElementById("priceRange");
+    const searchInput = document.getElementById("searchInput");
+    const priceValue = document.getElementById("priceValue");
+    const noResults = document.getElementById("noResults");
+
+    function displayProducts(filtered) {
+      productContainer.innerHTML = "";
+
+      if (filtered.length === 0) {
+        noResults.style.display = "block";
+        return;
+      } else {
+        noResults.style.display = "none";
+      }
+
+      filtered.forEach(product => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${product.image}" alt="${product.name}">
+          <h3>${product.name}</h3>
+          <p class="category">Category: ${product.category}</p>
+          <p class="price">Price: $${product.price}</p>
+          <p class="rating">Rating: ⭐ ${product.rating}</p>
+        `;
+        productContainer.appendChild(card);
+      });
+    }
+
+    function filterAndSort() {
+      const category = categoryFilter.value;
+      const maxPrice = parseInt(priceRange.value);
+      const sort = sortOption.value;
+      const searchText = searchInput.value.toLowerCase();
+
+      let filtered = products.filter(p =>
+        (category === "all" || p.category === category) &&
+        p.price <= maxPrice &&
+        p.name.toLowerCase().includes(searchText)
+      );
+
+      if (sort === "priceLow") filtered.sort((a, b) => a.price - b.price);
+      if (sort === "priceHigh") filtered.sort((a, b) => b.price - a.price);
+      if (sort === "ratingHigh") filtered.sort((a, b) => b.rating - a.rating);
+
+      displayProducts(filtered);
+    }
+
+    // Event listeners
+    categoryFilter.addEventListener("change", filterAndSort);
+    sortOption.addEventListener("change", filterAndSort);
+    priceRange.addEventListener("input", () => {
+      priceValue.textContent = priceRange.value;
+      filterAndSort();
+    });
+    searchInput.addEventListener("input", filterAndSort);
+
+    // Initial Load
+    displayProducts(products);
+  </script>
+
+</body>
+</html>
