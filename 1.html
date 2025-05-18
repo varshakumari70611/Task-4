@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Name | Web Developer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: #333;
+            background-color: #f4f4f4;
+            line-height: 1.6;
+        }
+
+        header {
+            background: linear-gradient(135deg, #007BFF, #00B4DB);
+            color: #fff;
+            padding: 1rem 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        header nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        header nav ul li {
+            margin: 0 1.5rem;
+        }
+
+        header nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        header nav ul li a:hover {
+            color: #FFC107;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #00B4DB, #007BFF);
+            color: #fff;
+            text-align: center;
+            padding: 6rem 1rem;
+            clip-path: polygon(0 0, 100% 0, 100% 90%, 0% 100%);
+        }
+
+        .profile-img {
+            width: 180px;
+            border-radius: 50%;
+            border: 5px solid #fff;
+            margin-bottom: 1.5rem;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        h1 span {
+            color: #FFC107;
+        }
+
+        p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 1.5rem;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeUp 1.5s ease-in-out forwards;
+            animation-delay: 0.5s;
+        }
+
+        .btn {
+            background-color: #FFC107;
+            color: #333;
+            padding: 1rem 2rem;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #e0a800;
+            transform: scale(1.1);
+        }
+
+        .about, .projects, .contact {
+            padding: 5rem 2rem;
+            text-align: center;
+            background-color: #fff;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 2rem 1rem;
+            border-radius: 15px;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: opacity 0.8s ease-in-out, transform 0.8s ease-in-out;
+        }
+
+        .about.show, .projects.show, .contact.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .about h2, .projects h2, .contact h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+            animation: slideIn 1.5s ease-in-out;
+        }
+
+        .about h2::after, .projects h2::after, .contact h2::after {
+            content: '';
+            width: 60px;
+            height: 3px;
+            background-color: #FFC107;
+            display: block;
+            margin: 0.5rem auto;
+        }
+
+        .project-card {
+            background-color: #f9f9f9;
+            margin: 1rem auto;
+            padding: 2rem;
+            border-radius: 10px;
+            max-width: 700px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        form input, form textarea {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.75rem 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        form input:focus, form textarea:focus {
+            outline: none;
+            transform: scale(1.05);
+            border-color: #007BFF;
+        }
+
+        form button {
+            background-color: #007BFF;
+            color: #fff;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Me</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Home Section -->
+    <section id="home" class="hero">
+        <div class="container">
+            <!-- <img src = "D:\My Pics\Screenshot_2023-05-27-16-47-15-36_99c04817c0de5652397fc8b56c3b3817.jpg" width = "130" height = "200"> -->
+            <img src="https://via.placeholder.com/180" alt="Yash Raj Gupta" class="profile-img"> 
+            <h1>Hi, I'm <span>Yash</span></h1>
+            <p>I'm a passionate web developer specializing in creating dynamic and engaging web applications.</p>
+            <a href="#projects" class="btn">View My Work</a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <h2>About Me</h2>
+            <p>I am a web developer with a background in computer applications. I specialize in building responsive web applications using the latest technologies.</p>
+            <p>Education: Bachelor of Computer Applications (BCA) .</p>
+            
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <div class="container">
+            <h2>My Projects</h2>
+            <div class="project-card">
+                <h3>Stopwatch Web Application</h3>
+                <p>This project is a fully functional stopwatch built using HTML, CSS, and JavaScript.
+                     It allows users to start, stop, and reset the timer with an intuitive user interface.
+                      The stopwatch accurately tracks time in hours, minutes, seconds, and milliseconds, ensuring precise timing for various use cases.
+                       JavaScript was utilized to manage the timer functionality, including interval tracking and state management,
+                        while CSS was employed to enhance the visual design, providing a user-friendly experience.
+                         This project demonstrates my skills in front-end development, DOM manipulation, and responsive web design.</p>
+            </div>
+            <div class="project-card">
+                <h3>Tic-Tac-Toe Game</h3>
+                <p>This is a classic two-player Tic-Tac-Toe game built using HTML, CSS, and JavaScript.
+                     The game allows two players to take turns marking "X" or "O" in a 3x3 grid. 
+                     The objective is to be the first player to form a horizontal, vertical, or diagonal line of three matching symbols. 
+                     The game includes logic to check for a winner after every move and displays the result (win, lose, or draw) at the end of each round. 
+                     The interface is user-friendly, with a reset button to start a new game.
+                      This project demonstrates my ability to implement game logic and interactivity using front-end web technologies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Contact Me</h2>
+            <form>
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <textarea placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <script>
+        // Smooth Scroll for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Show animations on scroll
+        const faders = document.querySelectorAll('.about, .projects, .contact');
+        const options = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) return;
+                entry.target.classList.add('show');
+                observer.unobserve(entry.target);
+            });
+        }, options);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+    </script>
+</body>
+</html>
